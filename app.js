@@ -56,7 +56,7 @@ async function loadMovies() {
 
   let query = db
     .from("movies")
-    .select("id, title, release_year, language, duration_min, description, poster_url, imdb_rating, genres(name)")
+    .select("id, title, release_year, language, duration_min, description, poster_url, genres(name)")
     .order("release_year", { ascending: false });
 
   const search = searchInput.value.trim();
@@ -76,14 +76,17 @@ async function loadMovies() {
 }
 
 function movieCard(m) {
-const r = ratingsMap[m.id];
-const stars = r && r.avg_rating ? `⭐ ${r.avg_rating} (${r.review_count})` : "No ratings yet";
-
-const imdb = m.imdb_rating
-? `🎬 IMDb: ${Number(m.imdb_rating).toFixed(1)}/10`
-: "IMDb: Not available";
-<p class="imdb-rating">${imdb}</p>
-return `     <div class="card" data-id="${m.id}">       <img src="${escapeHtml(m.poster_url)}" alt="${escapeHtml(m.title)}">       <div class="card-body">         <h3>${escapeHtml(m.title)}</h3>         <p>${m.release_year} · ${escapeHtml(m.language)} · ${escapeHtml(m.genres?.name)}</p>         <p class="imdb-rating">${imdb}</p>         <p class="stars">${stars}</p>       </div>     </div>`;
+  const r = ratingsMap[m.id];
+  const stars = r && r.avg_rating ? `⭐ ${r.avg_rating} (${r.review_count})` : "No ratings yet";
+  return `
+    <div class="card" data-id="${m.id}">
+      <img src="${escapeHtml(m.poster_url)}" alt="${escapeHtml(m.title)}">
+      <div class="card-body">
+        <h3>${escapeHtml(m.title)}</h3>
+        <p>${m.release_year} · ${escapeHtml(m.language)} · ${escapeHtml(m.genres?.name)}</p>
+        <p class="stars">${stars}</p>
+      </div>
+    </div>`;
 }
 
 // 6. Movie detail popup
@@ -94,7 +97,6 @@ async function openMovie(id) {
   movieDetail.innerHTML = `
     <h2>${escapeHtml(m.title)}</h2>
     <p class="meta">${m.release_year} · ${escapeHtml(m.language)} · ${escapeHtml(m.genres?.name)} · ${m.duration_min} min</p>
-    <p class="imdb-rating">🎬 IMDb Rating: ${m.imdb_rating ? Number(m.imdb_rating).toFixed(1) + "/10" : "Not available"}</p>
     <p>${escapeHtml(m.description)}</p>`;
   modal.classList.remove("hidden");
   await loadReviews(id);

@@ -2,7 +2,7 @@
 
 **Live Demo:** https://advaithsreeps3113-code.github.io/cinesuper--jsoft26169-/
 
-**Student:** ADVAITH SREE PS | **JSOFT ID:** JSOFT26169
+**Student:** ADVAITH SREE PS | **JSOFT ID:** jsoft26169
 **Institution:** Jain School of Future Technology
 **Course:** Database Management Systems | **Faculty:** Sathish Kumar M
 
